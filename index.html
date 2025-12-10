@@ -6,58 +6,93 @@
     <title>Simple Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
-      .btn {
-        border-radius: 0.25rem;
-        color: white;
-        padding: calc(var(--spacing) * 4);
-        margin: calc(var(--spacing) * 2);
-        min-width: 4rem;
-        cursor: pointer;
-        font-weight: bold;
+      @layer utilities {
+        .btn {
+          @apply h-16 w-full rounded-xl font-semibold text-xl transition-all duration-200 flex items-center justify-center cursor-pointer shadow-sm border border-transparent;
+        }
 
-        &:hover {
-          opacity: 0.8;
+        .number-btn {
+          @apply bg-gray-50 text-gray-800 hover:bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 dark:border-gray-600;
+        }
+
+        .operation-btn {
+          @apply bg-indigo-50 text-indigo-600 hover:bg-indigo-100 active:bg-indigo-200 dark:bg-gray-800 dark:text-indigo-400 dark:hover:bg-gray-700 dark:border-gray-700;
+        }
+
+        .action-btn {
+          @apply bg-gray-100 text-gray-600 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500 dark:border-gray-500;
+        }
+
+        .equals-btn {
+          @apply bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 shadow-lg shadow-indigo-200 dark:shadow-none dark:bg-indigo-600 dark:hover:bg-indigo-500;
         }
       }
     </style>
   </head>
-  <body class="bg-gray-100">
-    <div class="flex items-center justify-center min-h-screen">
+  <body
+    class="bg-gradient-to-br from-slate-50 via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen font-sans transition-colors duration-300"
+  >
+    <div class="flex items-center justify-center min-h-screen p-4">
       <div
-        class="bg-gray-200 shadow-2xl broder-rounded-lg p-6 space-y-4 border-2 border-white"
+        class="bg-white/80 dark:bg-gray-800/90 backdrop-blur-lg shadow-2xl rounded-3xl p-6 w-full max-w-sm border border-white/50 dark:border-gray-700 transition-colors duration-300 relative"
       >
-        <div class="relative min-w-full">
-          <span class="absolute right-5 text-gray-500" id="preview">0</span>
-          <input
-            type="text"
-            id="display"
-            class="w-full bg-gray-50 px-5 text-3xl py-1 pt-4 rounded-sm text-right border-2 border-gray-700 outline-0 cursor-text select-none overflow-x-auto"
-            value=""
-            readonly
-            style="white-space: nowrap; text-overflow: clip; direction: rtl"
-          />
+        <div class="mb-6 px-2 mt-3">
+          <div class="text-right space-y-1">
+            <span
+              id="preview"
+              class="block text-gray-400 dark:text-gray-500 text-sm h-5 transition-colors"
+              >0</span
+            >
+            <input
+              type="text"
+              id="display"
+              class="w-full text-4xl font-bold text-gray-800 dark:text-white text-right bg-transparent outline-none placeholder-gray-300 transition-colors"
+              value="0"
+              readonly
+            />
+          </div>
         </div>
-        <div class="grid grid-cols-4 gap-1">
-          <button class="btn operationBtn bg-blue-500" value="%">%</button>
-          <button class="btn operationBtn bg-blue-500" value="/">/</button>
-          <button class="btn actionBtn bg-blue-500" value="C">C</button>
-          <button class="btn actionBtn bg-green-500" value="Back">Back</button>
-          <button class="btn numberBtn bg-gray-500" value="7">7</button>
-          <button class="btn numberBtn bg-gray-500" value="8">8</button>
-          <button class="btn numberBtn bg-gray-500" value="9">9</button>
-          <button class="btn operationBtn bg-blue-500" value="X">X</button>
-          <button class="btn numberBtn bg-gray-500" value="4">4</button>
-          <button class="btn numberBtn bg-gray-500" value="5">5</button>
-          <button class="btn numberBtn bg-gray-500" value="6">6</button>
-          <button class="btn operationBtn bg-blue-500" value="-">-</button>
-          <button class="btn numberBtn bg-gray-500" value="1">1</button>
-          <button class="btn numberBtn bg-gray-500" value="2">2</button>
-          <button class="btn numberBtn bg-gray-500" value="3">3</button>
-          <button class="btn operationBtn bg-blue-500" value="+">+</button>
-          <button class="btn numberBtn bg-gray-500" value="00">00</button>
-          <button class="btn numberBtn bg-gray-500" value="0">0</button>
-          <button class="btn numberBtn bg-gray-500" value=".">.</button>
-          <button class="btn actionBtn bg-blue-500" value="=">=</button>
+
+        <div class="grid grid-cols-4 gap-3">
+          <button class="btn action-btn" value="C">C</button>
+          <button class="btn action-btn" value="%">%</button>
+          <button class="btn action-btn" value="Back">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9.75L14.25 12m0 0l2.25 2.25M14.25 12l2.25-2.25M14.25 12L12 14.25m-2.58 4.92l-6.375-6.375a1.125 1.125 0 010-1.59L9.42 4.83c.211-.211.498-.33.796-.33H19.5a2.25 2.25 0 012.25 2.25v10.5a2.25 2.25 0 01-2.25 2.25h-9.284c-.298 0-.585-.119-.796-.33z"
+              />
+            </svg>
+          </button>
+          <button class="btn operation-btn" value="/">÷</button>
+
+          <button class="btn number-btn" value="7">7</button>
+          <button class="btn number-btn" value="8">8</button>
+          <button class="btn number-btn" value="9">9</button>
+          <button class="btn operation-btn" value="*">×</button>
+
+          <button class="btn number-btn" value="4">4</button>
+          <button class="btn number-btn" value="5">5</button>
+          <button class="btn number-btn" value="6">6</button>
+          <button class="btn operation-btn" value="-">−</button>
+
+          <button class="btn number-btn" value="1">1</button>
+          <button class="btn number-btn" value="2">2</button>
+          <button class="btn number-btn" value="3">3</button>
+          <button class="btn operation-btn" value="+">+</button>
+
+          <button class="btn number-btn" value="00">00</button>
+          <button class="btn number-btn" value="0">0</button>
+          <button class="btn number-btn" value=".">.</button>
+          <button class="btn equals-btn" value="=">=</button>
         </div>
       </div>
     </div>
