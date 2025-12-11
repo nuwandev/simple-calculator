@@ -65,7 +65,10 @@ function handleEquals() {
 }
 
 function handleOperator(operator) {
-  // appendToDisplay(operator);
+  if (isNaN(parseInt(preview.textContent.at(-1)))) return;
+
+  display.value = "0";
+  preview.textContent += operator;
 }
 
 function handleNumber(number) {
