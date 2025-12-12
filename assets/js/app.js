@@ -2,6 +2,7 @@ const display = document.getElementById("display");
 const preview = document.getElementById("preview");
 const MAX_DIGITS = 15;
 let expression = "";
+let solution = null;
 
 function appendToDisplay(char) {
   if (display.value.length + 1 > MAX_DIGITS) return;
@@ -15,7 +16,7 @@ resetDisplay();
 
 function resetDisplay() {
   display.value = "0";
-  preview.textContent = "0";
+  preview.textContent = "";
 }
 
 document.querySelectorAll(".btn").forEach(function (btn) {
@@ -44,7 +45,21 @@ function handleClear() {
   resetDisplay();
 }
 
-function handlePercentage() {}
+function handlePercentage() {
+  if (display.value === "0") return;
+  try {
+    let current = parseFloat(display.value);
+    if (isNaN(current)) return;
+    let percent = current / 100;
+    display.value = percent;
+    let exp = preview.textContent;
+    exp = exp.replace(/(\d+\.?\d*)$/, percent);
+    preview.textContent = exp;
+  } catch (e) {
+    display.value = "Error";
+    preview.textContent = "";
+  }
+}
 
 function handleBackspace() {
   if (display.value.length === 1) {
@@ -56,22 +71,39 @@ function handleBackspace() {
 }
 
 function handleEquals() {
-  console.log(
-    "Expression:",
-    preview.textContent,
-    " = ",
-    eval(preview.textContent)
-  );
+  try {
+    if (!preview.textContent || /[+\-*/.]$/.test(preview.textContent)) {
+      display.value = "Error";
+      return;
+    }
+    let result = eval(preview.textContent);
+    if (result === Infinity || result === -Infinity || isNaN(result)) {
+      display.value = "Error";
+      return;
+    }
+    solution = result;
+    display.value = solution;
+  } catch (e) {
+    display.value = "Error";
+  }
 }
 
 function handleOperator(operator) {
   if (isNaN(parseInt(preview.textContent.at(-1)))) return;
+  if (solution !== null) {
+    preview.textContent = solution;
+    solution = null;
+  }
 
   display.value = "0";
   preview.textContent += operator;
 }
 
 function handleNumber(number) {
+  if (solution !== null) {
+    resetDisplay();
+    solution = null;
+  }
   appendToDisplay(number);
 }
 
