@@ -7,7 +7,7 @@ let solution = null;
 function appendToDisplay(char) {
   if (display.value.length + 1 > MAX_DIGITS) return;
 
-  display.value = display.value === "0" ? char : display.value + char;
+  display.value = display.value === "0" || display.value == 'Error' ? char : display.value + char;
   preview.textContent =
     preview.textContent === "0" ? char : preview.textContent + char;
 }
